@@ -1,64 +1,66 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { usePersonStore } from "./store/person";
 
-export default function App() {
-  const { person, people, createPerson, addPerson, updatePerson, resetPerson, deletePerson } = usePersonStore();
+export default function App(){
   const [editId, setEditId] = useState(null);
-
-  const handleSave = () => {
-    if (editId !== null) {
-      updatePerson(editId, { firstName: person.firstName, lastName: person.lastName });
-      setEditId(null); 
+  const {
+    person, 
+    createPerson,
+    resetPerson,
+    addPerson,
+    people,
+    deletePerson,
+    updatePerson
+  } = usePersonStore();
+  function handleAdd(){
+    if(editId !== null){
+      updatePerson(editId, {firstName: person.firstName, lastName: person.lastName})
+      setEditId(null)
     } else {
-      addPerson(person);
+      addPerson(person)
     }
-    resetPerson(); 
-  };
-
-  const handleEdit = (id) => {
-    const personToEdit = people.find((p) => p.id === id);
-    if (personToEdit) {
-      createPerson(personToEdit);
-      setEditId(id); 
+    resetPerson();
+  }
+  function handleEdit(id){
+    const updatedPersons = people.find(p => p.id === id);
+    if(updatedPersons){
+      createPerson(updatedPersons)
+      setEditId(id)
     }
-  };
-
+  }
+  console.log(people)
   return (
-    <main>
+    <div>
       <label>
-        First Name: {" "}
-        <input
-          placeholder="Jane"
+        First Name:
+        <input 
+          placeholder="Joe"
           value={person.firstName}
-          onChange={(e) => createPerson({ firstName: e.target.value })}
+          onChange={(e) => createPerson({firstName: e.target.value})}
         />
       </label>
-      <br /><br />
+      <br />
+      <br />
       <label>
-        Last Name: {" "}
-        <input
-          placeholder="Doe"
+        Last Name:
+        <input 
+          placeholder="Joe"
           value={person.lastName}
-          onChange={(e) => createPerson({ lastName: e.target.value })}
+          onChange={(e) => createPerson({lastName: e.target.value})}
         />
       </label>
-      <br /><br />
-      
-      <button onClick={handleSave}>
-        {editId !== null ? "Save Changes" : "Add Person"}
-      </button>
+      <br />
+      <br />
+      <button onClick={handleAdd}>{editId !== null ? "Save" : "Add"}</button>
       <button onClick={resetPerson}>Reset</button>
-
-      <h3>People List:</h3>
+      <h3>People's List: </h3>
       <ul>
-        {people.map((p) => (
-          <li key={p.id}>
-            {p.id}. {p.firstName} {p.lastName} {" "}
-            <button onClick={() => handleEdit(p.id)}>Edit</button>
-            <button onClick={() => deletePerson(p.id)}>Delete</button>
-          </li>
-        ))}
+        {people.map(person => <li key={person.id}>
+          {person.firstName} {person.lastName}
+          <button onClick={() => deletePerson(person.id)}>Delete</button>
+          <button onClick={() => handleEdit(person.id)}>Edit</button>
+        </li>)}
       </ul>
-    </main>
+    </div>
   );
 }
