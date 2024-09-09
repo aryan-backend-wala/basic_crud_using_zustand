@@ -22,7 +22,7 @@ export const usePersonStore = create((set) => ({
     people: state.people.filter(person => person.id !== id)
   })),
   updatePerson: (id, updatedPerson) => set((state) => ({
-    people: state.people.map(person => 
+    people: state.people.map(person =>
       person.id === id ? {...person, ...updatedPerson} : person
     )
   }))
