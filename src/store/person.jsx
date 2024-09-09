@@ -15,14 +15,15 @@ export const usePersonStore = create((set) => ({
   })),
   people: [],
   addPerson: (person) => set((state) => ({
-    people: [...state.people, {...person, id: state.nextId}],
+    people: [...state.people, person],
     nextId: state.nextId + 1
   })),
   deletePerson: (id) => set((state) => ({
     people: state.people.filter(person => person.id !== id)
   })),
   updatePerson: (id, updatedPerson) => set((state) => ({
-    people: state.people.map(person =>
-       person.id === id ? {...person, ...updatedPerson} : person)
+    people: state.people.map(person => 
+      person.id === id ? {...person, ...updatedPerson} : person
+    )
   }))
 }))
