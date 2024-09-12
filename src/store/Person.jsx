@@ -3,9 +3,6 @@ import {initialPeople} from '../utils/initialPeople';
 export const usePersonStore = create((set) => ({
   people: initialPeople,
   nextId: 4,
-  resetPerson: () => set((state) => ({
-    person: {...state.person, firstName: "", lastName: "", gender: "", age: 0, id: state.nextId}
-  })),
   addPerson: (person) => set((state) => ({
     people: [...state.people, {...person, id: state.nextId}],
     nextId: state.nextId + 1
