@@ -1,36 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { usePersonStore } from "../store/person"
 
-export default function AddForm({onAddPerson, updatePerson}){
-  const [person, setPerson] = useState({
-    firstName: "",
-    lastName: "",
-    age: 0,
-    gender: "",
-    id: 3
-  });
+export default function AddForm(){
+  const {
+    person,
+    createPerson,
+    addPerson,
+    resetPerson,
+    personToEdit,
+    updatePerson,
+    resetPersonToEdit
+  } = usePersonStore();
+
   useEffect(() => {
-    if(updatePerson){
-      setPerson({
-        ...updatePerson
-      })
-    } else {
-      setPerson({
-        ...person
-      })
+    if(personToEdit){
+      createPerson(personToEdit)
     }
-  }, [updatePerson])
-
-  function handleCreatePerson(){
-    onAddPerson(person);
-    person.id += 1;
-    setPerson({
-      ...person,
-      firstName: "",
-      lastName: "",
-      age: 0
-    })
-  }
-
+  }, [personToEdit])
+  
   return (
     <>
       <label>
@@ -39,7 +26,7 @@ export default function AddForm({onAddPerson, updatePerson}){
           type="text"
           placeholder="jane"
           value={person.firstName}
-          onChange={(e) => setPerson({...person, firstName: e.target.value})}
+          onChange={(e) => createPerson({...person, firstName: e.target.value})}
         />
       </label>
       <br /><br />
@@ -49,7 +36,7 @@ export default function AddForm({onAddPerson, updatePerson}){
           type="text"
           placeholder="doe"
           value={person.lastName}
-          onChange={(e) => setPerson({...person, lastName: e.target.value})}
+          onChange={(e) => createPerson({...person, lastName: e.target.value})}
         />
       </label>
       <br /><br />
@@ -59,7 +46,7 @@ export default function AddForm({onAddPerson, updatePerson}){
           type="number"
           placeholder="18"
           value={person.age ? person.age : ""}
-          onChange={(e) => setPerson({...person, age: parseInt(e.target.value)})}
+          onChange={(e) => createPerson({...person, age: parseInt(e.target.value)})}
         />
       </label>
       <br /><br />
@@ -67,7 +54,7 @@ export default function AddForm({onAddPerson, updatePerson}){
         Gender: 
         <select 
           value={person.gender}
-          onChange={(e) => setPerson({...person, gender: e.target.value})}
+          onChange={(e) => createPerson({...person, gender: e.target.value})}
         >
           <option value="">Choose</option>
           <option value="male">Male</option>
@@ -75,8 +62,16 @@ export default function AddForm({onAddPerson, updatePerson}){
         </select>
       </label>
       <br /><br />
-      <button onClick={handleCreatePerson}>
-        {updatePerson ? 'Save Changes' : "Add"}
+      <button onClick={() => {
+        if(personToEdit){
+          updatePerson(personToEdit.id, person)
+          resetPersonToEdit()
+        } else {
+          addPerson(person)
+        }
+        resetPerson()
+      }}>
+        {personToEdit ? "Save Changes" : "Add"}
       </button>
     </>
   )
