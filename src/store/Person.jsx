@@ -1,16 +1,6 @@
 import { create } from "zustand";
 import {initialPeople} from '../utils/initialPeople';
 export const usePersonStore = create((set) => ({
-  person: {
-    firstName: "",
-    lastName: "",
-    gender: "",
-    age: 0,
-    id: 0
-  },
-  createPerson: (newPerson) => set((state) => ({
-    person: {...state.person, ...newPerson}
-  })),
   people: initialPeople,
   nextId: 4,
   resetPerson: () => set((state) => ({

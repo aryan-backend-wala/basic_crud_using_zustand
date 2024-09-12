@@ -1,10 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePersonStore } from "../store/person"
 
 export default function AddForm(){
+  const [person, setPerson] =useState({
+    firstName: "",
+    lastName: "",
+    gender: "",
+    age: 0,
+    id: 0
+  })
   const {
-    person,
-    createPerson,
     addPerson,
     resetPerson,
     personToEdit,
@@ -14,7 +19,7 @@ export default function AddForm(){
 
   useEffect(() => {
     if(personToEdit){
-      createPerson(personToEdit)
+      setPerson(personToEdit)
     }
   }, [personToEdit])
   
@@ -26,7 +31,7 @@ export default function AddForm(){
           type="text"
           placeholder="jane"
           value={person.firstName}
-          onChange={(e) => createPerson({...person, firstName: e.target.value})}
+          onChange={(e) => setPerson({...person, firstName: e.target.value})}
         />
       </label>
       <br /><br />
@@ -36,7 +41,7 @@ export default function AddForm(){
           type="text"
           placeholder="doe"
           value={person.lastName}
-          onChange={(e) => createPerson({...person, lastName: e.target.value})}
+          onChange={(e) => setPerson({...person, lastName: e.target.value})}
         />
       </label>
       <br /><br />
@@ -46,7 +51,7 @@ export default function AddForm(){
           type="number"
           placeholder="18"
           value={person.age ? person.age : ""}
-          onChange={(e) => createPerson({...person, age: parseInt(e.target.value)})}
+          onChange={(e) => setPerson({...person, age: parseInt(e.target.value)})}
         />
       </label>
       <br /><br />
@@ -54,7 +59,7 @@ export default function AddForm(){
         Gender: 
         <select 
           value={person.gender}
-          onChange={(e) => createPerson({...person, gender: e.target.value})}
+          onChange={(e) => setPerson({...person, gender: e.target.value})}
         >
           <option value="">Choose</option>
           <option value="male">Male</option>

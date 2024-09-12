@@ -1,4 +1,5 @@
 import { usePersonStore } from "../store/person";
+import { isAdult, captializeFirstLetter } from "../utils/functions";
 
 export default function DisplayPeople(){
   const {
@@ -6,14 +7,16 @@ export default function DisplayPeople(){
     deletePerson,
     getId,
   } =  usePersonStore();
-  
+
+  console.log(people)
+
   return <ul>
     {
       people.map(person => 
         <li key={person.id}>
-          Gender: {isAdult(person.gender) + "=> " + person.gender}
+          Gender: {isAdult(person.gender, person.age > 18) + "=> " + captializeFirstLetter(person.gender)}
           <br />
-          Name: {person.firstName} {person.lastName}
+          Name: {captializeFirstLetter(person.firstName)} {captializeFirstLetter(person.lastName)}
           <br />
           Age: {person.age}
           <br />
@@ -23,15 +26,4 @@ export default function DisplayPeople(){
       )
     }
   </ul>;
-}
-
-function isAdult(string){
-  switch(string){
-    case 'male':
-      return '👨'
-    case 'female':
-      return '👩'
-    default: 
-      return ""
-  }
 }
