@@ -11,7 +11,6 @@ export default function AddForm(){
   })
   const {
     addPerson,
-    resetPerson,
     personToEdit,
     updatePerson,
     resetPersonToEdit
@@ -74,7 +73,13 @@ export default function AddForm(){
         } else {
           addPerson(person)
         }
-        resetPerson()
+        setPerson({
+          ...person,
+          firstName: "",
+          lastName: "",
+          gender: "",
+          age: 0
+        })
       }}>
         {personToEdit ? "Save Changes" : "Add"}
       </button>
