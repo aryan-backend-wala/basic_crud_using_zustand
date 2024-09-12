@@ -14,7 +14,7 @@ export default function DisplayPeople(){
     {
       people.map(person => 
         <li key={person.id}>
-          Gender: {isAdult(person.gender, person.age > 18) + "=> " + captializeFirstLetter(person.gender)}
+          Gender: {isAdult(person.gender, person.age > 18) + "=> " + captializeFirstLetter(person.gender ? person.gender : 'choose')}
           <br />
           Name: {captializeFirstLetter(person.firstName)} {captializeFirstLetter(person.lastName)}
           <br />
